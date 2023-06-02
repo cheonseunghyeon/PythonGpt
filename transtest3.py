@@ -1,8 +1,9 @@
 import os
 import openai
 from flask import Flask, request
+from flask import render_template
 
-openai.api_key = 
+openai.api_key = " "
 
 app = Flask(__name__)
 
@@ -48,7 +49,7 @@ def gpt():
         캐릭터 배경  : {back}
         캐릭터 직업 : {job}
         여기까지가 내 캐릭터의 설정이야 그리고 이제 모험을 시작하기에 앞서서 내가 살고 있는 대륙과 지역의 정보를 
-        던전 앤 드래곤즈 세계관에 적당한 그런 지명을 사용해서 랜덤하게 만들어주고
+        던전 앤 드래곤즈 세계관에 적당한 그런 지명을 사용해서 랜덤하게 만들어주고 
         이제 자연스럽고 자세하게 세계관 배경을 5줄 정도로 자세하게 설명을 해주고 
         내가 TRPG를 하는 것 처럼 너가 마스터로써 상황 등을 부여해줬으면 좋겠고 
         매 상황마다 전략을 선택할 수 있게 선택지를 숫자를 매기면서 알려주는데

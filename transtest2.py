@@ -2,7 +2,7 @@ import os
 import openai
 from flask import Flask, request
 
-openai.api_key = 
+openai.api_key = ""
 
 app = Flask(__name__)
 
