@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TRPG Character Setup</title>
+    <link rel="stylesheet" type="text/css" href="/static/info.css">
+    <script>
+        function selectName(names) {
+            document.getElementById('nameId').value = names;
+            // 파라미터로 전달받은 셀렉트박스 속성값을 
+            // 텍스트 박스 속성값에 전달함
+          }
+    </script>
+
+</head>
+<body>
+    <form action="/gpt"> 
+        <span>캐릭터 이름 : </span>
+        <input type="text" placeholder="캐릭터 이름 작성"  name="name" id="nameId"/>
+        <select name="nameselect" onchange="selectName(this.value)">
+            <option value="카일">카일</option>
+            <option value="코르미드">코르미드</option>
+            <option value="엔소라">엔소라</option>
+            <option value="레이너드">레이너드</option>
+            <option value="">직접 입력</option>
+          </select>
+        <br/>
+        <span>캐릭터 성격 : </span>
+        <input type="text" placeholder="캐릭터 성격 작성"  name="personality"/><br/>
+        <span>캐릭터 배경 : </span>
+        <input type="text" placeholder="캐릭터 배경 작성"  name="back"/><br/>
+        <span>캐릭터 직업 : </span>
+        <input type="text" placeholder="캐릭터 직업 작성"  name="job"/><br/>
+
+        <input type="submit" value="전송" />
+    </form>
+    
+</body>
+</html>

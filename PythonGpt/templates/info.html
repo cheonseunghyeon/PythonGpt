@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TRPG Character Setup</title>
+    <link rel="stylesheet" type="text/css" href="/static/info.css">
+    <script>
+        function selectName(names) {
+            document.getElementById('nameId').value = names;
+        }
+        function selectjob(names) {
+            document.getElementById('jobId').value = names;
+        }
+    </script>
+
+</head>
+<body>
+    <form action="/gpt"> 
+        <span>캐릭터 이름 : </span>
+        <input type="text" placeholder="캐릭터 이름 작성"  name="name" id="nameId"/>
+        <select name="nameselect" onchange="selectName(this.value)">
+            <option value="">직접 입력</option>
+            <option value="카일">카일</option>
+            <option value="알라라크">알라라크</option>
+            <option value="실바나스">실바나스</option>
+            <option value="피렐론">피렐론</option>
+            <option value="레이너드">레이너드</option>
+          </select>
+        <br/><br/>
+        <span>캐릭터 직업 : </span>
+        <input type="text" placeholder="캐릭터 직업 작성"  name="job" id="jobId"/><br/>
+        <select name="jobselect" onchange="selectjob(this.value)">
+            <option value="">직접 입력</option>
+            <option value="도적">도적</option>
+            <option value="전사">전사</option>
+            <option value="성직자">성직자</option>
+            <option value="레인저">레인저</option>
+            <option value="위자드">위자드</option>
+            <option value="바드">바드</option>
+            <option value="클레릭">클레릭</option>
+            <option value="파이터">파이터</option>
+        </select>
+        <br/><br/>
+        <span>캐릭터 성별 : </span>
+
+            <input type="radio" id="setgender" name="gender" value="남자" checked>
+            <label for="남자">남자</label>
+
+            <input type="radio" id="setgender" name="gender" value="여자">
+            <label for="여자">여자</label>
+        <br/>
+        <br/>
+        <span>캐릭터 성격 : </span>
+        <input type="text" placeholder="캐릭터 성격 작성"  name="personality"/><br/>
+
+        <span>캐릭터 배경 : </span>
+        <input type="text" placeholder="캐릭터 배경 작성"  name="back"/><br/>
+        <input type="submit" value="전송" />
+    </form>
+    
+</body>
+</html>
