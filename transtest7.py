@@ -2,7 +2,7 @@ import os
 import openai
 from flask import Flask, request, render_template
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app = Flask(__name__)
 
@@ -73,51 +73,69 @@ def chat():
 
         # 질문과 답변을 따로 변수에 저장하고 이를 화면에 출력
         question = f'<div style="margin:20px 0px"><strong>👤 You:</strong> {prompt}</div>'
-        answer = f'<div style="background-color:#ddd;margin:20px 2px"><strong>🤖 AI:</strong> {res}</div>'
+        answer = f'<div style="margin:20px 2px"><strong>🧙 Master:</strong> {res}</div>'
 
         # 이전 대화와 현재 대화를 합쳐서 dialogs에 저장
         totallog = totallog + prompt + res
         dialogs = question + answer
     html = f"""
         <style>
+            *{{
+                font-family: 'hero', sans-serif;
+            }}
             body {{
                 background-image: url('/static/배경.jpg');
                 background-size: cover;
                 backdrop-filter: blur(5px);
             }}
+            @font-face {{
+                font-family:"Hero";
+                src: url('/static/HeirofLightBold.ttf');
+            }}
         </style>
 
         <div style="background-image: url('/static/게시판.jpg');background-size: cover;background-repeat: no-repeat; padding: 200px;">
             <div style="max-width: 500px; margin: 0 auto;">
-                <h2 style="margin-top: 280px;">Chat with AI</h2>
+                <div style="display: flex; justify-content: center;">
+                    <h2 style="margin-top: 280px;">환상의 대륙</h2>
+                </div>
                 {dialogs}
+                <div style="display: flex; flex-wrap: wrap;justify-content: center;align-items: center;">
+                    <form action="/chat" method="GET" style="width: 100px; padding: 5px;">
+                        <input type="hidden" name="prompt" value="1">
+                        <button type="submit" style="width: 100%; padding: 10px; background-color: transparent; border: none; cursor: pointer;">
+                            <img src="/static/1.png" alt="Button 1" style="width: 100%; height: auto;">
+                        </button>
+                    </form>
+                    <form action="/chat" method="GET" style="width: 110px; padding: 5px;">
+                        <input type="hidden" name="prompt" value="2">
+                        <button type="submit" style="width: 100%; padding: 10px; background-color: transparent; border: none; cursor: pointer;">
+                            <img src="/static/2.png" alt="Button 2" style="width: 100%; height: auto;">
+                        </button>
+                    </form>
+                    <form action="/chat" method="GET" style="width: 95px; padding: 5px;">
+                        <input type="hidden" name="prompt" value="3">
+                        <button type="submit" style="width: 100%; padding: 10px; background-color: transparent; border: none; cursor: pointer;">
+                            <img src="/static/3.png" alt="Button 3" style="width: 100%; height: auto;">
+                        </button>
+                    </form>
+                </div>
                 <form action=/chat method="GET" style="margin-top: 20px;">
                     <input type="text" style="width: 100%; padding: 10px;" name="prompt" placeholder="Enter your message..." autocomplete="off" autofocus>
                     <input type="submit" value="Send" style="width: 100%; padding: 10px; margin-top: 10px; background-color: #4CAF50; color: white; font-weight: bold; cursor: pointer;">
                 </form>
-                    <form action="/chat" method="GET" style="margin-top: 20px;">
-                    <input type="hidden" name="prompt" value="1">
-                    <input type="submit" value="Button 1" style="width: 100%; padding: 10px; background-color: #FFFF00; color: white; font-weight: bold; cursor: pointer;">
-                </form>
-                </form>
-                    <form action="/chat" method="GET" style="margin-top: 20px;">
-                    <input type="hidden" name="prompt" value="2">
-                    <input type="submit" value="Button 2" style="width: 100%; padding: 10px; background-color: #FFFFff; color: white; font-weight: bold; cursor: pointer;">
-                </form>
-                </form>
-                    <form action="/chat" method="GET" style="margin-top: 20px;">
-                    <input type="hidden" name="prompt" value="3">
-                    <input type="submit" value="Button 3" style="width: 100%; padding: 10px; background-color: #FFaa22; color: white; font-weight: bold; cursor: pointer;">
-                </form>
-                <form action="/save_log" method="POST" style="margin-top: 20px;">
-                    <input type="submit" value="Save Log" style="width: 100%; padding: 10px; background-color: #FF0000; color: white; font-weight: bold; cursor: pointer;">
-                </form>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <form action="/save_log" method="POST" style="margin-top: 40px; display: flex;">
+                        <button type="submit" style="width: 75px; height: 75px; background-color: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                            <img src="/static/save.png" alt="Save" style="width: 100%; height: 100%;">
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     """
 
     return html
-
 
 @app.route('/save_log', methods=['POST'])
 def save_log():
@@ -127,7 +145,16 @@ def save_log():
     with open('dialog_log.txt', 'w', encoding='utf-8') as f:
         f.write(totallog)
 
-    return "Log saved successfully!"
+    html = '''
+
+    <div style="max-width: 500px; margin: 0 auto;">
+        <div style="display: flex; justify-content: center;">
+            <h2 style="margin-top: 280px;">지금까지의 모험이 모두 기록됐습니다.</h2>
+        </div>
+    </div>
+    '''
+
+    return html
 
 
 if __name__ == '__main__':
