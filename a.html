@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TRPG Character Setup</title>
+    <link rel="stylesheet" type="text/css" href="/static/main.css">
+</head>
+<body>
+    <div style="background-color:gray">{{ dialogs|safe }}</div>
+    <br/>
+    <form action="/chat"> 
+        <input type="submit" value="모험떠나기">
+    </form>
+    <div style="background-color:lightgray">
+        <h1>프로필</h1><br/>
+        <span>이름은 {{ name }}</span><br/>
+        <span>성별은 {{ gender }}</span><br/>
+        <span>직업은 {{ job }}</span><br/>
+        <img id="character-image" src="" alt="Character Image">
+    </div>
+
+    {% comment %} <script>
+        let gender = {{ gender }};
+        let job = {{ job }};
+        const characterImage = document.getElementById("character-image");  // 이미지 요소
+
+        // 특정 성별과 직업에 따라 이미지 경로 설정
+        if (gender === "남성") {
+            if (job === "전사") {
+                characterImage.src = "./RogueMan1.jpg";
+            } else if (job === "마법사") {
+                characterImage.src = "./RogueMan1.jpg";
+            } else {
+                characterImage.src = "./RogueMan1.jpg";
+            }
+        } else if (gender === "여성") {
+            if (job === "전사") {
+                characterImage.src = "./RogueMan1.jpg";
+            } else if (job === "마법사") {
+                characterImage.src = "./RogueMan1.jpg";
+            } else {
+                characterImage.src = "./RogueMan1.jpg";
+            }
+        } else {
+            characterImage.src = "./RogueMan1.jpg";
+        }
+    </script> {% endcomment %}
+</body>
+</html>

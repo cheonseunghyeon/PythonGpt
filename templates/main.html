@@ -1,16 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>TRPG Character Setup</title>
-    <link rel="stylesheet" type="text/css" href="/static/main.css">
-</head>
-<body>
-    {{ res_html|safe }}
-    <br/>
-    <form action="/chat"> 
-        <input type="submit" value="모험떠나기">
-    </form>
-    <span>그의 이름은 {{ name }}</span>
-    <div style="background-color:gray">{{ dialogs|safe }}</div>
-</body>
-</html>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>TRPG Character Setup</title>
+        <link rel="stylesheet" type="text/css" href="/static/main.css">
+    </head>
+    <body>
+        <div style="background-color:gray">{{ dialogs|safe }}</div>
+        <br/>
+        <form action="/chat"> 
+            <input type="submit" value="모험떠나기">
+        </form>
+        <div style="background-color:lightgray">
+            <h1>프로필</h1><br/>
+            <span>이름은 {{ name }}</span><br/>
+            <span>성별은 {{ gender }}</span><br/>
+            <span>직업은 {{ job }}</span><br/>
+            <img id="character-image" src="" alt="Character Image">
+        </div>
+    </body>
+    </html>

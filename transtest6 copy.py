@@ -59,28 +59,43 @@ def gpt():
     
     return render_template('main.html', name=name,gender=gender,job=job,res_html=res_html, dialogs=dialogs)
 
-@app.route('/chat')  # 새로운 route 추가
+@app.route('/chat')
 def chat():
     global dialogs, messages
-    
+
     prompt = request.args.get("prompt", "")
 
-    if prompt != "" :
+    if prompt != "":
         messages.append({"role": "user", "content": prompt})
         completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
-        res = completion.choices[0].message['content'].replace("\n", "<br/>").replace(" "," &nbsp;" )
-        messages.append({"role": 'assistant', "content": res}  )
+        res = completion.choices[0].message['content'].replace("\n", "<br/>").replace(" ", "&nbsp;")
+        messages.append({"role": 'assistant', "content": res})
 
-        dialogs += f'<div style="margin:20px 0px">🍳{prompt}</div>' 
-        dialogs += f'<div style="background-color:#ddd;margin:20px 2px">😊{res}</div>' 
-        
-    html= f"""
-        <div style="background-color:gray">{dialogs}</div>
-        <form action=/chat> 
-            <textarea style="width:100%"  rows=4 name=prompt></textarea>
-            <input type=submit value=Chat>
-        </form>
-    """    
+        dialogs += f'<div style="margin:20px 0px"><strong>👤 You:</strong> {prompt}</div>'
+        dialogs += f'<div style="background-color:#ddd;margin:20px 2px"><strong>🤖 AI:</strong> {res}</div>'
+
+    html = f"""
+        <style>
+            body {{
+                background-image: url('/static/배경.jpg');
+                background-size: cover;
+                backdrop-filter: blur(5px);
+            }}
+            /* 나머지 CSS 스타일 코드 생략 */
+        </style>
+
+        <div style="background-image: url('/static/게시판.jpg');background-size: cover;background-repeat: no-repeat; padding: 200px;">
+            <div style="max-width: 500px; margin: 0 auto;">
+                <h2 style="margin-top: 300px;">Chat with AI</h2>
+                <div style="background-color:#ddd;margin:20px 2px"><strong>🤖 AI:</strong> {res}</div>
+                <div style="margin:20px 0px"><strong>👤 You:</strong> {prompt}</div>
+                <form action=/chat method="GET" style="margin-top: 20px;">
+                    <input type="text" style="width: 100%; padding: 10px;" name="prompt" placeholder="Enter your message..." autocomplete="off" autofocus>
+                    <input type="submit" value="Send" style="width: 100%; padding: 10px; margin-top: 10px; background-color: #4CAF50; color: white; font-weight: bold; cursor: pointer;">
+                </form>
+            </div>
+        </div>
+    """
     return html
 
 if __name__ == '__main__':
