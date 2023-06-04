@@ -5,12 +5,18 @@
     <link rel="stylesheet" type="text/css" href="/static/main.css">
 </head>
 <body>
-    {{ res_html|safe }}
+    <div style="background-color:lightgray">
+        <h1>{{ name }}</h1><br/>
+        <span>성별 {{ gender }}</span><br/>
+        <span>직업 {{ job }}</span><br/>
+        <img id="character-image" src="" alt="Character Image">
+        <img src="{{ image_url }}" alt="/ima">
+    </div>
+
+    <div style="background-color:gray">{{ dialogs|safe }}</div>
     <br/>
     <form action="/chat"> 
         <input type="submit" value="모험떠나기">
     </form>
-    <span>그의 이름은 {{ name }}</span>
-    <div style="background-color:gray">{{ dialogs|safe }}</div>
 </body>
 </html>

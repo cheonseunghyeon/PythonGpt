@@ -7,6 +7,7 @@ openai.api_key = "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"
 
 app = Flask(__name__)
 
+totallog = ""
 dialogs = ""
 messages = []
 
@@ -18,7 +19,7 @@ def index():
 @app.route('/gpt')
 def gpt():   
     # index가 아닌 바깥에서 사용한 전역 변수를 사용하겠다
-    global dialogs, messages
+    global dialogs, messages,totallog
     
     name = request.args.get("name","랜덤 판타지 이름으로 설정해줘") 
     personality = request.args.get("personality","랜덤 판타지 성격으로 설정해줘") 
@@ -53,35 +54,57 @@ def gpt():
     # 각 줄을 구분하기 위해 <br> 태그 사용
     res_html = "<br>".join(res.split("\n"))
     dialogs += f'<div style="margin:20px 0px">{res_html}</div>'   
-    
+    totallog += res_html
     # 응답을 messages에 추가
     messages.append({"role": "assistant", "content": res})
     
     return render_template('main.html', name=name,gender=gender,job=job,res_html=res_html, dialogs=dialogs)
 
-@app.route('/chat')  # 새로운 route 추가
+
+@app.route('/chat')
 def chat():
-    global dialogs, messages
-    
+    global dialogs, messages,totallog
     prompt = request.args.get("prompt", "")
 
-    if prompt != "" :
+    if prompt != "":
         messages.append({"role": "user", "content": prompt})
         completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
-        res = completion.choices[0].message['content'].replace("\n", "<br/>").replace(" "," &nbsp;" )
-        messages.append({"role": 'assistant', "content": res}  )
+        res = completion.choices[0].message['content'].replace("\n", "<br/>").replace(" ", "&nbsp;")
+        messages.append({"role": 'assistant', "content": res})
 
-        dialogs += f'<div style="margin:20px 0px">🍳{prompt}</div>' 
-        dialogs += f'<div style="background-color:#ddd;margin:20px 2px">😊{res}</div>' 
-        
-    html= f"""
-        <div style="background-color:gray">{dialogs}</div>
-        <form action=/chat> 
-            <textarea style="width:100%"  rows=4 name=prompt></textarea>
-            <input type=submit value=Chat>
-        </form>
-    """    
+        # 질문과 답변을 따로 변수에 저장하고 이를 화면에 출력
+        question = f'<div style="margin:20px 0px"><strong>👤 You:</strong> {prompt}</div>'
+        answer = f'<div style="background-color:#ddd;margin:20px 2px"><strong>🤖 AI:</strong> {res}</div>'
+
+        # 이전 대화와 현재 대화를 합쳐서 dialogs에 저장
+        totallog = totallog + prompt + res
+        dialogs = question + answer
+    html = f"""
+        <style>
+            body {{
+                background-image: url('/static/배경.jpg');
+                background-size: cover;
+                backdrop-filter: blur(5px);
+            }}
+            /* 나머지 CSS 스타일 코드 생략 */
+        </style>
+
+        <div style="background-image: url('/static/게시판.jpg');background-size: cover;background-repeat: no-repeat; padding: 200px;">
+            <div style="max-width: 500px; margin: 0 auto;">
+                <h2 style="margin-top: 250px;">Chat with AI</h2>
+                {dialogs}
+                <form action=/chat method="GET" style="margin-top: 20px;">
+                    <input type="text" style="width: 100%; padding: 10px;" name="prompt" placeholder="Enter your message..." autocomplete="off" autofocus>
+                    <input type="submit" value="Send" style="width: 100%; padding: 10px; margin-top: 10px; background-color: #4CAF50; color: white; font-weight: bold; cursor: pointer;">
+                </form>
+                {totallog}
+            </div>
+        </div>
+    """
+
+    
     return html
+    
 
 if __name__ == '__main__':
 	app.run(debug=True)

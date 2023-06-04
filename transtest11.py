@@ -3,7 +3,7 @@ import openai
 from flask import Flask, request
 from flask import render_template
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app = Flask(__name__)
 
@@ -24,7 +24,7 @@ def gpt():
     personality = request.args.get("personality","랜덤 판타지 성격으로 설정해줘") 
     back = request.args.get("back","랜덤 판타지 배경을 설정해줘") 
     job = request.args.get("job","랜덤 판타지 직업을 설정해줘") 
-    gender = request.args.get("gender","남자") 
+    
     messages = []  # messages 초기화
         
     setup = f"""
@@ -34,7 +34,6 @@ def gpt():
         캐릭터 성격 : {personality}
         캐릭터 배경  : {back}
         캐릭터 직업 : {job}
-        캐릭터 성별 : {gender}
         여기까지가 내 캐릭터의 설정이야 그리고 이제 모험을 시작하기에 앞서서 내가 살고 있는 대륙과 지역의 정보를 
         던전 앤 드래곤즈 세계관에 적당한 그런 지명을 사용해서 랜덤하게 만들어주고 
         이제 자연스럽고 자세하게 세계관 배경을 5줄 정도로 자세하게 설명을 해주고 
@@ -54,10 +53,7 @@ def gpt():
     res_html = "<br>".join(res.split("\n"))
     dialogs += f'<div style="margin:20px 0px">{res_html}</div>'   
     
-    # 응답을 messages에 추가
-    messages.append({"role": "assistant", "content": res})
-    
-    return render_template('main.html', name=name,gender=gender,job=job,res_html=res_html, dialogs=dialogs)
+    return render_template('main.html', name=name, res_html=res_html, dialogs=dialogs)
 
 @app.route('/chat')  # 새로운 route 추가
 def chat():
