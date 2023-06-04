@@ -2,7 +2,7 @@ import os
 import openai
 from flask import Flask, request, render_template
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app = Flask(__name__)
 
@@ -14,10 +14,14 @@ messages = []
 def index():
     return render_template('info.html')
 
+def select_image(job, gender):
+    
+        return '/static/img/' + job + '_' + gender + '.jpeg'
+
 
 @app.route('/gpt')
 def gpt():   
-    # index가 아닌 바깥에서 사용한 전역 변수를 사용하겠다
+
     global dialogs, messages,totallog
     
     name = request.args.get("name","랜덤 판타지 이름으로 설정해줘") 
@@ -25,7 +29,9 @@ def gpt():
     back = request.args.get("back","랜덤 판타지 배경을 설정해줘") 
     job = request.args.get("job","랜덤 판타지 직업을 설정해줘") 
     gender = request.args.get("gender","남자") 
-    messages = []  # messages 초기화
+    messages = [] 
+
+    image_url = select_image(job, gender)
         
     setup = f"""
         너가 마스터가 되어 던전앤 드래곤즈를 함께 플레이 하자
@@ -50,15 +56,15 @@ def gpt():
 
     res = completion.choices[0].message['content']
     
-    # 각 줄을 구분하기 위해 <br> 태그 사용
+
     res_html = "<br>".join(res.split("\n"))
     dialogs += f'<div style="margin:20px 0px">{res_html}</div>'   
     totallog += res_html
     # 응답을 messages에 추가
     messages.append({"role": "assistant", "content": res})
     
-    return render_template('main.html', name=name,gender=gender,job=job,res_html=res_html, dialogs=dialogs)
-
+    return render_template('main.html', name=name,gender=gender,job=job,res_html=res_html,dialogs=dialogs, image_url=image_url)
+    
 
 @app.route('/chat')
 def chat():
