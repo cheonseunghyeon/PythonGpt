@@ -2,7 +2,11 @@ import os
 import openai
 from flask import Flask, request, render_template
 
+<<<<<<< HEAD
 openai.api_key = "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"
+=======
+openai.api_key = "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"
+>>>>>>> d9580642a434184f941b52a5a2d5272fbd6a30ca
 
 app = Flask(__name__)
 

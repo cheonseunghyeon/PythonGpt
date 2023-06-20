@@ -1,0 +1,102 @@
+<html>
+        <head><title>음악추천</title>
+        <style>
+            
+
+            #musicSubmit{
+                margin-top: 10px;
+                background-color: #B2FA5C;
+                border: 1px solid #64CD3C;
+            }
+            #musicSubmit:hover{
+                cursor: pointer;
+            }
+            .inputdata {
+                width: 80px; 
+                height: 100px; 
+                font-size: 10px;
+            }
+            
+            body{
+                background-color: #C3C7C8;
+                background-image: url("./img.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+                margin: 0;                /* 바디의 기본 마진을 제거합니다. */
+            background-position: center;  /* 배경 이미지를 가운데에 배치합니다. */
+            }
+
+        </style>
+        </head>
+        
+        <body id="wrapper">
+            <h1>옷 추천 사이트</h1>
+            <div>설정에 따라 달라지는 추천 복장</div>
+            <br>
+            <form action=/gpt>
+                
+                <table class="myMusicTable">
+                    <thead>
+                    <tr><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th><th>일</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><textarea id="music" name="myMusicMon" placeholder="복장 추천" class="inputdata"></textarea></td>
+                            <td><textarea id="music" name="myMusicTue" placeholder="복장 추천" class="inputdata"></textarea></td>
+                            <td><textarea id="music" name="myMusicWed" placeholder="복장 추천" class="inputdata"></textarea></td>
+                            <td><textarea id="music" name="myMusicThu" placeholder="복장 추천" class="inputdata"></textarea></td>
+                            <td><textarea id="music" name="myMusicFri" placeholder="복장 추천" class="inputdata"></textarea></td>
+                            <td><textarea id="music" name="myMusicSat" placeholder="복장 추천" class="inputdata"></textarea></td>
+                            <td><textarea id="music" name="myMusicSun" placeholder="복장 추천" class="inputdata"></textarea></td>
+                          </tr>
+                    </tbody>
+                </table>
+                <div>
+                    시즌
+                    <select name=genre>
+                        <option value="랜덤하게">랜덤</option> 
+                        <option value="봄">봄</option>
+                        <option value="여름">여름</option>
+                        <option value="가을">가을</option>
+                        <option value="겨울">겨울</option>
+                    </select>
+                </div>
+                <div>
+                    기분
+                    <select name=feeling>
+                        <option value="랜덤하게">랜덤</option>   
+                        <option value="신날 때">신나는</option>
+                        <option value="우울할 때">우울한</option>
+                        <option value="설렐 때">설레는</option>
+                        <option value="외로울 때">외로운</option>
+                        <option value="스트레스 받을 때">스트레스 받은</option>
+                        <option value="피곤할 때">피곤한</option>               
+                    </select>
+                </div>
+                <div>
+                    날씨별
+                    <select name=weather>
+                        <option value="관계없이">랜덤</option>    
+                        <option value="맑을 때">맑은 날</option>
+                        <option value="비올 때">비오는 날</option>
+                        <option value="봄일때 ">봄</option>
+                        <option value="여름일때">여름</option>
+                        <option value="가을일때">가을</option>
+                        <option value="겨울일때">겨울</option>              
+                    </select>
+                </div>                
+                <input id="musicSubmit" type=submit value='옷 추천받기'/> 
+                <br>
+            </form>
+            <hr>
+            <div>추천받은 복장 목록보기</div>
+            <table>
+                
+            </table>
+            {% for file in files  %}
+            <tr><td>
+                <a href="readmusic/{{file}}"> {{file}}  </a> <br/>
+            </td></tr>
+            {% endfor  %}
+        </body>
+        </html>
